@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import UserCard from './components/UserCard';
+import UserForm from './components/UserForm';
+import axios from 'axios';
+
+
+
 
 function App() {
+
+  const [users, setUsers] = useState([]);
+
+
+  useEffect(()=>{
+    console.log('this a loop?')
+    axios.get('http://localhost:8080/users').then(res=>{
+      setUsers(res.data)
+    })
+  }, [])
+
+  const updateUsers = (data) =>{
+    setUsers([...users, data])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserForm updateUsers={updateUsers}/>
+      <div className="user-list">
+      {users.map(u=>{
+        return <UserCard setUsers={setUsers} user={u} key={u.id}/>
+      })}
+
+      </div>
     </div>
   );
 }
