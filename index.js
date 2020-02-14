@@ -22,6 +22,7 @@ server.get("/", async (req, res) => {
 });
 
 server.get("/users", async (req, res) => {
+  console.log('aytoo')
   try {
     const users = await db.find();
     res.status(200).json(users);

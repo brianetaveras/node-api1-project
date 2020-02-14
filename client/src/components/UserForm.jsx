@@ -17,8 +17,12 @@ export default function UserForm({updateUsers}) {
     axios
       .post("http://localhost:8080/users", info)
       .then(res => {
-        console.log(res);
-        updateUsers(res.data)
+        updateUsers(res.data);
+        setInfo({
+          name: '',
+          bio: ''
+        })
+
       })
       .catch(err => {
         setFeedback(err.message);
@@ -28,8 +32,8 @@ export default function UserForm({updateUsers}) {
   return (
     <div className="form">
       <form onSubmit={handleSubmit}>
-        <input onChange={handleChanges} name="name" placeholder="Name" type="text" />
-        <input onChange={handleChanges} name="bio" placeholder="Bio" type="text" />
+        <input onChange={handleChanges} value={info.name} name="name" placeholder="Name" type="text" />
+        <input onChange={handleChanges} value={info.bio} name="bio" placeholder="Bio" type="text" />
         {feedback ? <div>{feedback}</div> : null}
         <button>Add</button>
       </form>
